@@ -13,4 +13,12 @@
         app:frv_dividerHeight="0.5dp"
         app:frv_layoutManager="linear" />
 
+    <com.getbase.floatingactionbutton.AddFloatingActionButton
+        android:id="@+id/btnFloat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+
+        />
 </RelativeLayout>
