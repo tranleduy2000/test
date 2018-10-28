@@ -77,12 +77,36 @@ public class ListViewActivity2 extends AppCompatActivity {
     }
 
     static class MyListAdapter extends BaseAdapter {
+        private final SparseArray<MyViewHolder> mCountdownVHList;
         private Context mContext;
         private List<ItemInfo> mDatas;
-        private final SparseArray<MyViewHolder> mCountdownVHList;
         private Handler mHandler = new Handler();
         private Timer mTimer;
         private boolean isCancel = true;
+        private Runnable mRefreshTimeRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if (mCountdownVHList.size() == 0) return;
+
+                synchronized (mCountdownVHList) {
+                    long currentTime = System.currentTimeMillis();
+                    int key;
+                    for (int i = 0; i < mCountdownVHList.size(); i++) {
+                        key = mCountdownVHList.keyAt(i);
+                        MyViewHolder curMyViewHolder = mCountdownVHList.get(key);
+                        if (currentTime >= curMyViewHolder.getBean().getEndTime()) {
+                            // 倒计时结束
+                            curMyViewHolder.getBean().setCountdown(0);
+                            mCountdownVHList.remove(key);
+                            notifyDataSetChanged();
+                        } else {
+                            curMyViewHolder.refreshTime(currentTime);
+                        }
+
+                    }
+                }
+            }
+        };
 
         public MyListAdapter(Context context, List<ItemInfo> datas) {
             this.mContext = context;
@@ -155,31 +179,6 @@ public class ListViewActivity2 extends AppCompatActivity {
 
             return convertView;
         }
-
-        private Runnable mRefreshTimeRunnable = new Runnable() {
-            @Override
-            public void run() {
-                if (mCountdownVHList.size() == 0) return;
-
-                synchronized (mCountdownVHList) {
-                    long currentTime = System.currentTimeMillis();
-                    int key;
-                    for (int i = 0; i < mCountdownVHList.size(); i++) {
-                        key = mCountdownVHList.keyAt(i);
-                        MyViewHolder curMyViewHolder = mCountdownVHList.get(key);
-                        if (currentTime >= curMyViewHolder.getBean().getEndTime()) {
-                            // 倒计时结束
-                            curMyViewHolder.getBean().setCountdown(0);
-                            mCountdownVHList.remove(key);
-                            notifyDataSetChanged();
-                        } else {
-                            curMyViewHolder.refreshTime(currentTime);
-                        }
-
-                    }
-                }
-            }
-        };
 
         static class MyViewHolder {
             private TextView mTvTitle;

@@ -17,44 +17,44 @@ public class MainActivity extends AppCompatActivity implements CountdownView.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        CountdownView mCvCountdownViewTest1 = (CountdownView)findViewById(R.id.cv_countdownViewTest1);
+        CountdownView mCvCountdownViewTest1 = findViewById(R.id.cv_countdownViewTest1);
         mCvCountdownViewTest1.setTag("test1");
-        long time1 = (long)5 * 60 * 60 * 1000;
+        long time1 = (long) 5 * 60 * 60 * 1000;
         mCvCountdownViewTest1.start(time1);
 
-        CountdownView mCvCountdownViewTest2 = (CountdownView)findViewById(R.id.cv_countdownViewTest2);
+        CountdownView mCvCountdownViewTest2 = findViewById(R.id.cv_countdownViewTest2);
         mCvCountdownViewTest2.setTag("test2");
-        long time2 = (long)30 * 60 * 1000;
+        long time2 = (long) 30 * 60 * 1000;
         mCvCountdownViewTest2.start(time2);
 
-        CountdownView cvCountdownViewTest211 = (CountdownView)findViewById(R.id.cv_countdownViewTest211);
+        CountdownView cvCountdownViewTest211 = findViewById(R.id.cv_countdownViewTest211);
         cvCountdownViewTest211.setTag("test21");
-        long time211 = (long)30 * 60 * 1000;
+        long time211 = (long) 30 * 60 * 1000;
         cvCountdownViewTest211.start(time211);
 
-        CountdownView mCvCountdownViewTest21 = (CountdownView)findViewById(R.id.cv_countdownViewTest21);
+        CountdownView mCvCountdownViewTest21 = findViewById(R.id.cv_countdownViewTest21);
         mCvCountdownViewTest21.setTag("test21");
-        long time21 = (long)24 * 60 * 60 * 1000;
+        long time21 = (long) 24 * 60 * 60 * 1000;
         mCvCountdownViewTest21.start(time21);
 
-        CountdownView mCvCountdownViewTest22 = (CountdownView)findViewById(R.id.cv_countdownViewTest22);
+        CountdownView mCvCountdownViewTest22 = findViewById(R.id.cv_countdownViewTest22);
         mCvCountdownViewTest22.setTag("test22");
-        long time22 = (long)30 * 60 * 1000;
+        long time22 = (long) 30 * 60 * 1000;
         mCvCountdownViewTest22.start(time22);
 
-        CountdownView mCvCountdownViewTest3 = (CountdownView)findViewById(R.id.cv_countdownViewTest3);
-        long time3 = (long)9 * 60 * 60 * 1000;
+        CountdownView mCvCountdownViewTest3 = findViewById(R.id.cv_countdownViewTest3);
+        long time3 = (long) 9 * 60 * 60 * 1000;
         mCvCountdownViewTest3.start(time3);
 
-        CountdownView mCvCountdownViewTest4 = (CountdownView)findViewById(R.id.cv_countdownViewTest4);
-        long time4 = (long)150 * 24 * 60 * 60 * 1000;
+        CountdownView mCvCountdownViewTest4 = findViewById(R.id.cv_countdownViewTest4);
+        long time4 = (long) 150 * 24 * 60 * 60 * 1000;
         mCvCountdownViewTest4.start(time4);
 
-        CountdownView cv_convertDaysToHours = (CountdownView) findViewById(R.id.cv_convertDaysToHours);
+        CountdownView cv_convertDaysToHours = findViewById(R.id.cv_convertDaysToHours);
         // long timeConvertDaysToHours = (long) 150 * 24 * 60 * 60 * 1000;
         cv_convertDaysToHours.start(time4);
 
-        final CountdownView mCvCountdownViewTest5 = (CountdownView)findViewById(R.id.cv_countdownViewTest5);
+        final CountdownView mCvCountdownViewTest5 = findViewById(R.id.cv_countdownViewTest5);
         new AsyncTask<Void, Long, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements CountdownView.OnC
                     }
                 }
             }
+
             @Override
             protected void onProgressUpdate(Long... values) {
                 super.onProgressUpdate(values);
@@ -76,8 +77,8 @@ public class MainActivity extends AppCompatActivity implements CountdownView.OnC
             }
         }.execute();
 
-        CountdownView mCvCountdownViewTest6 = (CountdownView)findViewById(R.id.cv_countdownViewTest6);
-        long time6 = (long)2 * 60 * 60 * 1000;
+        CountdownView mCvCountdownViewTest6 = findViewById(R.id.cv_countdownViewTest6);
+        long time6 = (long) 2 * 60 * 60 * 1000;
         mCvCountdownViewTest6.start(time6);
 
 

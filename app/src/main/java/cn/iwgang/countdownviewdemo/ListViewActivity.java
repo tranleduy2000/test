@@ -17,8 +17,8 @@ import cn.iwgang.countdownview.CountdownView;
 
 
 /**
-     此类模拟在ListView中使用倒计时,
-     复用 本地的计时器 —— System.currentTimeMillis(), 不必自行计时
+ * 此类模拟在ListView中使用倒计时,
+ * 复用 本地的计时器 —— System.currentTimeMillis(), 不必自行计时
  */
 public class ListViewActivity extends AppCompatActivity {
     private List<ItemInfo> mDataList;

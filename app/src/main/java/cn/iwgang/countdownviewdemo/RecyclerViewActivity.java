@@ -1,7 +1,6 @@
 package cn.iwgang.countdownviewdemo;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,19 +18,13 @@ import cn.iwgang.familiarrecyclerview.FamiliarRecyclerView;
 
 
 /**
-     此类模拟在RecyclerView中使用倒计时,
-     复用 本地的计时器 —— System.currentTimeMillis(), 不必自行计时
+ * 此类模拟在RecyclerView中使用倒计时,
+ * 复用 本地的计时器 —— System.currentTimeMillis(), 不必自行计时
  */
 public class RecyclerViewActivity extends AppCompatActivity {
+    FamiliarRecyclerView cvFamiliarRecyclerView;
     private MyAdapter mMyAdapter;
     private List<ItemInfo> mDataList;
-
-    FamiliarRecyclerView cvFamiliarRecyclerView;
-
-
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,36 +38,24 @@ public class RecyclerViewActivity extends AppCompatActivity {
         cvFamiliarRecyclerView.setOnItemClickListener(new FamiliarRecyclerView.OnItemClickListener() {
             @Override
             public void onItemClick(FamiliarRecyclerView familiarRecyclerView, View view, int position) {
-                Toast.makeText(RecyclerViewActivity.this, " "+ position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(RecyclerViewActivity.this, " " + position, Toast.LENGTH_SHORT).show();
 
             }
         });
 
 
-
     }
-
-
-
-
 
 
     private void initData() {
         mDataList = new ArrayList<>();
 
-        mDataList.add(new ItemInfo(1000 + 10, "RecyclerView_2323Test_" + 11,"ahihi" ,345600000));
-        mDataList.add(new ItemInfo(1000 + 10, "RecyclerView_Te23st_" + 11,"ahih2 i" ,3456000));
-        mDataList.add(new ItemInfo(1000 + 10, "23 2" + 11,"ahi 3 hi" ,345600000));
-        mDataList.add(new ItemInfo(1000 + 10, "RecyclerView1212_Te23 st_" + 11,"ahi23 hi" ,345600000));
-        mDataList.add(new ItemInfo(1000 + 10, "RecyclerView4545_Te23 st_" + 11,"ahi23gbdfgfgfgsd sdfsdf hi" ,345600000));
-        mDataList.add(new ItemInfo(1000 + 10, "RecyclerVi121ew_Te23 st_" + 11,"ahi23 hsdfsdfdsfsdfsdfvsdfsdvsrfasfdfdsgsdfdasfsdfsdfdsfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfi" ,345600000));
-
-
-
-
-
-
-
+        mDataList.add(new ItemInfo(1000 + 10, "RecyclerView_2323Test_" + 11, "ahihi", 345600000));
+        mDataList.add(new ItemInfo(1000 + 10, "RecyclerView_Te23st_" + 11, "ahih2 i", 3456000));
+        mDataList.add(new ItemInfo(1000 + 10, "23 2" + 11, "ahi 3 hi", 345600000));
+        mDataList.add(new ItemInfo(1000 + 10, "RecyclerView1212_Te23 st_" + 11, "ahi23 hi", 345600000));
+        mDataList.add(new ItemInfo(1000 + 10, "RecyclerView4545_Te23 st_" + 11, "ahi23gbdfgfgfgsd sdfsdf hi", 345600000));
+        mDataList.add(new ItemInfo(1000 + 10, "RecyclerVi121ew_Te23 st_" + 11, "ahi23 hsdfsdfdsfsdfsdfvsdfsdvsrfasfdfdsgsdfdasfsdfsdfdsfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfi", 345600000));
 
 
         // 校对倒计时
@@ -84,9 +64,6 @@ public class RecyclerViewActivity extends AppCompatActivity {
             itemInfo.setEndTime(curTime + itemInfo.getCountdown());
         }
     }
-
-
-
 
 
     static class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
@@ -137,7 +114,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView mTvTitle,tv_desc;
+        private TextView mTvTitle, tv_desc;
         private CountdownView mCvCountdownView;
         private ItemInfo mItemInfo;
 
@@ -178,6 +155,11 @@ public class RecyclerViewActivity extends AppCompatActivity {
         private String title;
         private String des;
         private long countdown;
+        /*
+                   根据服务器返回的countdown换算成手机对应的开奖时间 (毫秒)
+                   [正常情况最好由服务器返回countdown字段，然后客户端再校对成该手机对应的时间，不然误差很大]
+                 */
+        private long endTime;
 
         public ItemInfo(int id, String title, String des, long countdown, long endTime) {
             this.id = id;
@@ -187,11 +169,13 @@ public class RecyclerViewActivity extends AppCompatActivity {
             this.endTime = endTime;
         }
 
-        /*
-                   根据服务器返回的countdown换算成手机对应的开奖时间 (毫秒)
-                   [正常情况最好由服务器返回countdown字段，然后客户端再校对成该手机对应的时间，不然误差很大]
-                 */
-        private long endTime;
+        public ItemInfo(int id, String title, String des, long countdown) {
+            this.id = id;
+            this.title = title;
+            this.des = des;
+            this.countdown = countdown;
+
+        }
 
         public String getDes() {
             return des;
@@ -199,14 +183,6 @@ public class RecyclerViewActivity extends AppCompatActivity {
 
         public void setDes(String des) {
             this.des = des;
-        }
-
-        public ItemInfo(int id, String title, String des, long countdown) {
-            this.id = id;
-            this.title = title;
-            this.des = des;
-            this.countdown = countdown;
-
         }
 
         public int getId() {

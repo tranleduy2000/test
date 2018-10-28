@@ -1,14 +1,14 @@
-package com.lencostudio.dealineapp;
+package cn.iwgang.countdownviewdemo;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class DataBase extends SQLiteOpenHelper {
+public class Database extends SQLiteOpenHelper {
 
 
-    public DataBase( Context context,  String name, SQLiteDatabase.CursorFactory factory, int version) {
+    public Database(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
 
     }
@@ -23,12 +23,12 @@ public class DataBase extends SQLiteOpenHelper {
 
     }
 
-    public void QueryData(String sql){
+    public void QueryData(String sql) {
         SQLiteDatabase database = getWritableDatabase();
         database.execSQL(sql);
     }
 
-    public Cursor GetData(String sql){
+    public Cursor GetData(String sql) {
         SQLiteDatabase database = getReadableDatabase();
         return database.rawQuery(sql, null);
     }

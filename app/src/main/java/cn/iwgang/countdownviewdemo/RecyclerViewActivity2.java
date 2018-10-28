@@ -7,16 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import cn.iwgang.countdownview.CountdownView;
 import cn.iwgang.familiarrecyclerview.FamiliarRecyclerView;
 
 
@@ -74,12 +71,36 @@ public class RecyclerViewActivity2 extends AppCompatActivity {
     }
 
     static class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
+        private final SparseArray<MyViewHolder> mCountdownVHList;
         private Context mContext;
         private List<ItemInfo> mDatas;
-        private final SparseArray<MyViewHolder> mCountdownVHList;
         private Handler mHandler = new Handler();
         private Timer mTimer;
         private boolean isCancel = true;
+        private Runnable mRefreshTimeRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if (mCountdownVHList.size() == 0) return;
+
+                synchronized (mCountdownVHList) {
+                    long currentTime = System.currentTimeMillis();
+                    int key;
+                    for (int i = 0; i < mCountdownVHList.size(); i++) {
+                        key = mCountdownVHList.keyAt(i);
+                        MyViewHolder curMyViewHolder = mCountdownVHList.get(key);
+                        if (currentTime >= curMyViewHolder.getBean().getEndTime()) {
+                            // 倒计时结束
+                            curMyViewHolder.getBean().setCountdown(0);
+                            mCountdownVHList.remove(key);
+                            notifyDataSetChanged();
+                        } else {
+                            curMyViewHolder.refreshTime(currentTime);
+                        }
+
+                    }
+                }
+            }
+        };
 
         public MyAdapter(Context context, List<ItemInfo> datas) {
             this.mContext = context;
@@ -145,33 +166,7 @@ public class RecyclerViewActivity2 extends AppCompatActivity {
                 mCountdownVHList.remove(curAnnounceGoodsInfo.getId());
             }
         }
-
-        private Runnable mRefreshTimeRunnable = new Runnable() {
-            @Override
-            public void run() {
-                if (mCountdownVHList.size() == 0) return;
-
-                synchronized (mCountdownVHList) {
-                    long currentTime = System.currentTimeMillis();
-                    int key;
-                    for (int i = 0; i < mCountdownVHList.size(); i++) {
-                        key = mCountdownVHList.keyAt(i);
-                        MyViewHolder curMyViewHolder = mCountdownVHList.get(key);
-                        if (currentTime >= curMyViewHolder.getBean().getEndTime()) {
-                            // 倒计时结束
-                            curMyViewHolder.getBean().setCountdown(0);
-                            mCountdownVHList.remove(key);
-                            notifyDataSetChanged();
-                        } else {
-                            curMyViewHolder.refreshTime(currentTime);
-                        }
-
-                    }
-                }
-            }
-        };
     }
-
 
 
 }

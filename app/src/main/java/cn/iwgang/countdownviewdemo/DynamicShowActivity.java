@@ -17,7 +17,7 @@ import cn.qqtheme.framework.picker.ColorPicker;
 
 @SuppressWarnings("ALL")
 public class DynamicShowActivity extends AppCompatActivity {
-    private final long TIME = (long)8 * 24 * 60 * 60 * 1000;
+    private final long TIME = (long) 8 * 24 * 60 * 60 * 1000;
 
 
     private CountdownView mCvCountdownViewTest, mCvCountdownViewTestHasBg;
@@ -53,27 +53,27 @@ public class DynamicShowActivity extends AppCompatActivity {
                 if (hasBackgroundCountdownView) {
                     DynamicConfig.BackgroundInfo backgroundInfo = new DynamicConfig.BackgroundInfo();
                     backgroundInfo.setColor(0xFFFF54BC)
-                                  .setSize(30f)
-                                  .setRadius(0f)
-                                  .setShowTimeBgDivisionLine(false);
+                            .setSize(30f)
+                            .setRadius(0f)
+                            .setShowTimeBgDivisionLine(false);
                     dynamicConfigBuilder.setTimeTextSize(15)
-                                        .setTimeTextColor(0xFFFFFFFF)
-                                        .setTimeTextBold(true)
-                                        .setSuffixTextColor(0xFF000000)
-                                        .setSuffixTextSize(15)
-                                        .setBackgroundInfo(backgroundInfo)
-                                        .setShowDay(false).setShowHour(true).setShowMinute(true).setShowSecond(true).setShowMillisecond(true);
+                            .setTimeTextColor(0xFFFFFFFF)
+                            .setTimeTextBold(true)
+                            .setSuffixTextColor(0xFF000000)
+                            .setSuffixTextSize(15)
+                            .setBackgroundInfo(backgroundInfo)
+                            .setShowDay(false).setShowHour(true).setShowMinute(true).setShowSecond(true).setShowMillisecond(true);
                 } else {
                     dynamicConfigBuilder.setTimeTextSize(35)
-                                        .setTimeTextColor(0xFFFF5000)
-                                        .setTimeTextBold(true)
-                                        .setSuffixTextColor(0xFFFF5000)
-                                        .setSuffixTextSize(30)
-                                        .setSuffixTextBold(false)
-                                        .setSuffix(":")
-                                        .setSuffixMillisecond("") // Remove millisecond suffix
-                                        .setSuffixGravity(DynamicConfig.SuffixGravity.CENTER)
-                                        .setShowDay(false).setShowHour(false).setShowMinute(true).setShowSecond(true).setShowMillisecond(true);
+                            .setTimeTextColor(0xFFFF5000)
+                            .setTimeTextBold(true)
+                            .setSuffixTextColor(0xFFFF5000)
+                            .setSuffixTextSize(30)
+                            .setSuffixTextBold(false)
+                            .setSuffix(":")
+                            .setSuffixMillisecond("") // Remove millisecond suffix
+                            .setSuffixGravity(DynamicConfig.SuffixGravity.CENTER)
+                            .setShowDay(false).setShowHour(false).setShowMinute(true).setShowSecond(true).setShowMillisecond(true);
                 }
                 if (hasBackgroundCountdownView) {
                     mCvCountdownViewTestHasBg.dynamicShow(dynamicConfigBuilder.build());
@@ -90,31 +90,31 @@ public class DynamicShowActivity extends AppCompatActivity {
                 if (hasBackgroundCountdownView) {
                     DynamicConfig.BackgroundInfo backgroundInfo = new DynamicConfig.BackgroundInfo();
                     backgroundInfo.setColor(0xFFFF5000)
-                                  .setSize(60f)
-                                  .setRadius(30f)
-                                  .setShowTimeBgDivisionLine(false);
+                            .setSize(60f)
+                            .setRadius(30f)
+                            .setShowTimeBgDivisionLine(false);
                     dynamicConfigBuilder.setTimeTextSize(42)
-                                        .setTimeTextColor(0xFFFFFFFF)
-                                        .setTimeTextBold(true)
-                                        .setSuffixTextColor(0xFF000000)
-                                        .setSuffixTextSize(42)
-                                        .setSuffixTextBold(true)
-                                        .setBackgroundInfo(backgroundInfo)
-                                        .setShowDay(false).setShowHour(true).setShowMinute(true).setShowSecond(true).setShowMillisecond(false);
+                            .setTimeTextColor(0xFFFFFFFF)
+                            .setTimeTextBold(true)
+                            .setSuffixTextColor(0xFF000000)
+                            .setSuffixTextSize(42)
+                            .setSuffixTextBold(true)
+                            .setBackgroundInfo(backgroundInfo)
+                            .setShowDay(false).setShowHour(true).setShowMinute(true).setShowSecond(true).setShowMillisecond(false);
                 } else {
                     dynamicConfigBuilder.setTimeTextSize(60)
-                                        .setTimeTextColor(0xFF444444)
-                                        .setTimeTextBold(false)
-                                        .setSuffixTextColor(0xFF444444)
-                                        .setSuffixTextSize(20)
-                                        .setSuffixTextBold(false)
-                                        .setSuffixMinute("m")
-                                        .setSuffixMinuteLeftMargin(5)
-                                        .setSuffixMinuteRightMargin(10)
-                                        .setSuffixSecond("s")
-                                        .setSuffixSecondLeftMargin(5)
-                                        .setSuffixGravity(DynamicConfig.SuffixGravity.BOTTOM)
-                                        .setShowDay(false).setShowHour(false).setShowMinute(true).setShowSecond(true).setShowMillisecond(false);
+                            .setTimeTextColor(0xFF444444)
+                            .setTimeTextBold(false)
+                            .setSuffixTextColor(0xFF444444)
+                            .setSuffixTextSize(20)
+                            .setSuffixTextBold(false)
+                            .setSuffixMinute("m")
+                            .setSuffixMinuteLeftMargin(5)
+                            .setSuffixMinuteRightMargin(10)
+                            .setSuffixSecond("s")
+                            .setSuffixSecondLeftMargin(5)
+                            .setSuffixGravity(DynamicConfig.SuffixGravity.BOTTOM)
+                            .setShowDay(false).setShowHour(false).setShowMinute(true).setShowSecond(true).setShowMillisecond(false);
                 }
                 if (hasBackgroundCountdownView) {
                     mCvCountdownViewTestHasBg.dynamicShow(dynamicConfigBuilder.build());
@@ -131,29 +131,29 @@ public class DynamicShowActivity extends AppCompatActivity {
                 if (hasBackgroundCountdownView) {
                     DynamicConfig.BackgroundInfo backgroundInfo = new DynamicConfig.BackgroundInfo();
                     backgroundInfo.setColor(0xFF444444)
-                                  .setSize(40f)
-                                  .setRadius(3f)
-                                  .setShowTimeBgDivisionLine(true)
-                                  .setDivisionLineColor(Color.parseColor("#30FFFFFF"))
-                                  .setDivisionLineSize(1f);
+                            .setSize(40f)
+                            .setRadius(3f)
+                            .setShowTimeBgDivisionLine(true)
+                            .setDivisionLineColor(Color.parseColor("#30FFFFFF"))
+                            .setDivisionLineSize(1f);
                     dynamicConfigBuilder.setTimeTextSize(22)
-                                        .setTimeTextColor(0xFFFFFFFF)
-                                        .setTimeTextBold(true)
-                                        .setSuffixTextColor(0xFF000000)
-                                        .setSuffixTextSize(18)
-                                        .setSuffixTextBold(true)
-                                        .setBackgroundInfo(backgroundInfo)
-                                        .setShowDay(true).setShowHour(true).setShowMinute(true).setShowSecond(true).setShowMillisecond(true);
+                            .setTimeTextColor(0xFFFFFFFF)
+                            .setTimeTextBold(true)
+                            .setSuffixTextColor(0xFF000000)
+                            .setSuffixTextSize(18)
+                            .setSuffixTextBold(true)
+                            .setBackgroundInfo(backgroundInfo)
+                            .setShowDay(true).setShowHour(true).setShowMinute(true).setShowSecond(true).setShowMillisecond(true);
                 } else {
                     dynamicConfigBuilder.setTimeTextSize(22)
-                                        .setTimeTextColor(0xFF000000)
-                                        .setTimeTextBold(false)
-                                        .setSuffixTextColor(0xFF000000)
-                                        .setSuffixTextSize(12)
-                                        .setSuffixTextBold(false)
-                                        .setSuffixDay("天").setSuffixHour("小时").setSuffixMinute("分钟").setSuffixSecond("秒").setSuffixMillisecond("毫秒")
-                                        .setSuffixGravity(DynamicConfig.SuffixGravity.TOP)
-                                        .setShowDay(true).setShowHour(true).setShowMinute(true).setShowSecond(true).setShowMillisecond(true);
+                            .setTimeTextColor(0xFF000000)
+                            .setTimeTextBold(false)
+                            .setSuffixTextColor(0xFF000000)
+                            .setSuffixTextSize(12)
+                            .setSuffixTextBold(false)
+                            .setSuffixDay("天").setSuffixHour("小时").setSuffixMinute("分钟").setSuffixSecond("秒").setSuffixMillisecond("毫秒")
+                            .setSuffixGravity(DynamicConfig.SuffixGravity.TOP)
+                            .setShowDay(true).setShowHour(true).setShowMinute(true).setShowSecond(true).setShowMillisecond(true);
                 }
                 if (hasBackgroundCountdownView) {
                     mCvCountdownViewTestHasBg.dynamicShow(dynamicConfigBuilder.build());
@@ -300,10 +300,10 @@ public class DynamicShowActivity extends AppCompatActivity {
                 }
                 DynamicConfig.Builder dynamicConfigBuilder = new DynamicConfig.Builder();
                 dynamicConfigBuilder.setShowDay(isShowDay)
-                                    .setShowHour(isShowHour)
-                                    .setShowMinute(isShowMinute)
-                                    .setShowSecond(isShowSecond)
-                                    .setShowMillisecond(isShowMillisecond);
+                        .setShowHour(isShowHour)
+                        .setShowMinute(isShowMinute)
+                        .setShowSecond(isShowSecond)
+                        .setShowMillisecond(isShowMillisecond);
 
                 if (hasBackgroundCountdownView) {
                     mCvCountdownViewTestHasBg.dynamicShow(dynamicConfigBuilder.build());
@@ -382,7 +382,7 @@ public class DynamicShowActivity extends AppCompatActivity {
             }
         });
 
-        ((CheckBox)findViewById(R.id.cb_bgDivisionLine)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        ((CheckBox) findViewById(R.id.cb_bgDivisionLine)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 btnModBgDivisionLineColor.setEnabled(isChecked);
@@ -449,7 +449,7 @@ public class DynamicShowActivity extends AppCompatActivity {
             }
         });
 
-        ((CheckBox)findViewById(R.id.cb_bgBorder)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        ((CheckBox) findViewById(R.id.cb_bgBorder)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 btnModBgBorderColor.setEnabled(isChecked);
@@ -463,7 +463,7 @@ public class DynamicShowActivity extends AppCompatActivity {
                 mCvCountdownViewTestHasBg.dynamicShow(dynamicConfigBuilder.build());
             }
         });
-        ((CheckBox)findViewById(R.id.cb_bgBorder)).setChecked(false);
+        ((CheckBox) findViewById(R.id.cb_bgBorder)).setChecked(false);
 
         final EditText etSuffixDay = (EditText) findViewById(R.id.et_suffixDay);
         final EditText etSuffixHour = (EditText) findViewById(R.id.et_suffixHour);
@@ -475,10 +475,10 @@ public class DynamicShowActivity extends AppCompatActivity {
             public void onClick(View v) {
                 DynamicConfig.Builder dynamicConfigBuilder = new DynamicConfig.Builder();
                 dynamicConfigBuilder.setSuffixDay(etSuffixDay.getText().toString())
-                                    .setSuffixHour(etSuffixHour.getText().toString())
-                                    .setSuffixMinute(etSuffixMinute.getText().toString())
-                                    .setSuffixSecond(etSuffixSecond.getText().toString())
-                                    .setSuffixMillisecond(etSuffixMillisecond.getText().toString());
+                        .setSuffixHour(etSuffixHour.getText().toString())
+                        .setSuffixMinute(etSuffixMinute.getText().toString())
+                        .setSuffixSecond(etSuffixSecond.getText().toString())
+                        .setSuffixMillisecond(etSuffixMillisecond.getText().toString());
                 mCvCountdownViewTest.dynamicShow(dynamicConfigBuilder.build());
             }
         });
