@@ -1,0 +1,5 @@
+lưu thời gian kết thúc
+
+người dùng nhập 3h 30m
+
+thoi gian kết thúc = thời gian hiện tại  + (ngày  + giờ + phút)

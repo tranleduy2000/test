@@ -27,4 +27,7 @@ dependencies {
 //    compile project(':library')
     api 'com.github.iwgang:countdownview:2.1.6'
     api 'com.getbase:floatingactionbutton:1.10.1'
+    // https://mvnrepository.com/artifact/commons-io/commons-io
+    api group: 'commons-io', name: 'commons-io', version: '2.4'
+
 }

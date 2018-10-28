@@ -14,7 +14,7 @@
         app:frv_layoutManager="linear" />
 
     <com.getbase.floatingactionbutton.AddFloatingActionButton
-        android:id="@+id/btnFloat"
+        android:id="@+id/btn_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

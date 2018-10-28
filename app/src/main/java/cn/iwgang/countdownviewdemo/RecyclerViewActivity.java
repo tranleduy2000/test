@@ -1,191 +1,247 @@
 package cn.iwgang.countdownviewdemo;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import cn.iwgang.countdownview.CountdownView;
-import cn.iwgang.familiarrecyclerview.FamiliarRecyclerView;
 
 
-/**
- * 此类模拟在RecyclerView中使用倒计时,
- * 复用 本地的计时器 —— System.currentTimeMillis(), 不必自行计时
- */
-public class RecyclerViewActivity extends AppCompatActivity {
-    FamiliarRecyclerView cvFamiliarRecyclerView;
+public class RecyclerViewActivity extends AppCompatActivity implements OnScheduleActionListener {
+    private RecyclerView mRecyclerView;
     private MyAdapter mMyAdapter;
-    private List<ItemInfo> mDataList;
+    private List<Schedule> mSchedules;
+    private IDatabase<Schedule> mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recyclerview);
 
-        initData();
+        mDatabase = new JsonDatabase(this);
+        mSchedules = new ArrayList<>();
 
-        cvFamiliarRecyclerView = (FamiliarRecyclerView) findViewById(R.id.cv_familiarRecyclerView);
-        cvFamiliarRecyclerView.setAdapter(mMyAdapter = new MyAdapter(this, mDataList));
-        cvFamiliarRecyclerView.setOnItemClickListener(new FamiliarRecyclerView.OnItemClickListener() {
+        mRecyclerView = findViewById(R.id.cv_familiarRecyclerView);
+        mMyAdapter = new MyAdapter(this, mSchedules);
+        mRecyclerView.setAdapter(mMyAdapter);
+
+        mMyAdapter.setListener(this);
+
+        findViewById(R.id.btn_add).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(FamiliarRecyclerView familiarRecyclerView, View view, int position) {
-                Toast.makeText(RecyclerViewActivity.this, " " + position, Toast.LENGTH_SHORT).show();
-
+            public void onClick(View v) {
+                showDialogAddSchedule();
             }
         });
 
+        reloadData();
+    }
+
+    @SuppressLint("NewApi")
+    private void showDialogAddSchedule() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_add_schedule, null);
+        builder.setView(view);
+
+        final EditText editTitle = view.findViewById(R.id.edit_title);
+        final EditText editDesc = view.findViewById(R.id.edit_desc);
+        final EditText editHour = view.findViewById(R.id.edit_hour);
+        final EditText editMinute = view.findViewById(R.id.edit_minute);
+
+
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        view.findViewById(R.id.btn_submit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String title = editTitle.getText().toString();
+                String desc = editDesc.getText().toString();
+
+                //algorithm
+                // lưu thời gian
+
+//                Calendar calendar = GregorianCalendar.getInstance();
+//                calendar.setTimeInMillis(System.currentTimeMillis());
+//                calendar.set(Calendar.HOUR,
+//                        calendar.get(Calendar.HOUR) + Integer.parseInt(editHour.getText().toString()));
+//                calendar.set(Calendar.MINUTE,
+//                        calendar.get(Calendar.MINUTE) + Integer.parseInt(editMinute.getText().toString()));
+//
+//                long timeInMillis = calendar.getTimeInMillis();
+                long timeInMillis = 0; //lay thoi gian ket thuc
+                Schedule schedule = new Schedule(title, desc, timeInMillis);
+                mDatabase.add(schedule);
+                reloadData();
+                alertDialog.dismiss();
+            }
+        });
 
     }
 
+    private void reloadData() {
+        mSchedules.clear();
+        mSchedules.addAll(mDatabase.readAll());
 
-    private void initData() {
-        mDataList = new ArrayList<>();
+        Collections.sort(mSchedules, new Comparator<Schedule>() {
+            @Override
+            public int compare(Schedule left, Schedule right) {
+                return Long.valueOf(left.getEndTime()).compareTo(right.getEndTime());
+            }
+        });
 
-        mDataList.add(new ItemInfo(1000 + 10, "RecyclerView_2323Test_" + 11, "ahihi", 345600000));
-        mDataList.add(new ItemInfo(1000 + 10, "RecyclerView_Te23st_" + 11, "ahih2 i", 3456000));
-        mDataList.add(new ItemInfo(1000 + 10, "23 2" + 11, "ahi 3 hi", 345600000));
-        mDataList.add(new ItemInfo(1000 + 10, "RecyclerView1212_Te23 st_" + 11, "ahi23 hi", 345600000));
-        mDataList.add(new ItemInfo(1000 + 10, "RecyclerView4545_Te23 st_" + 11, "ahi23gbdfgfgfgsd sdfsdf hi", 345600000));
-        mDataList.add(new ItemInfo(1000 + 10, "RecyclerVi121ew_Te23 st_" + 11, "ahi23 hsdfsdfdsfsdfsdfvsdfsdvsrfasfdfdsgsdfdasfsdfsdfdsfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfi", 345600000));
+        mMyAdapter.notifyDataSetChanged();
+    }
 
+    @Override
+    public void onClickDelete(final Schedule schedule) {
+        new AlertDialog.Builder(this).setTitle("Delete?")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-        // 校对倒计时
-        long curTime = System.currentTimeMillis();
-        for (ItemInfo itemInfo : mDataList) {
-            itemInfo.setEndTime(curTime + itemInfo.getCountdown());
-        }
+                        mDatabase.remove(schedule);
+                        reloadData();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .create()
+                .show();
     }
 
 
     static class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
+        @NonNull
         private Context mContext;
-        private List<ItemInfo> mDatas;
+        @NonNull
+        private List<Schedule> mData;
+        private OnScheduleActionListener mListener;
 
-        public MyAdapter(Context context, List<ItemInfo> datas) {
+        MyAdapter(@NonNull Context context, @NonNull List<Schedule> datas) {
             this.mContext = context;
-            this.mDatas = datas;
+            this.mData = datas;
+        }
+
+        public void setListener(OnScheduleActionListener mListener) {
+            this.mListener = mListener;
         }
 
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new MyViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item, parent, false));
+            LayoutInflater inflater = LayoutInflater.from(mContext);
+            return new MyViewHolder(inflater.inflate(R.layout.list_item, parent, false));
         }
 
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
-            ItemInfo curItemInfo = mDatas.get(position);
-            holder.bindData(curItemInfo);
+            final Schedule curSchedule = mData.get(position);
+            holder.bindData(curSchedule);
+
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (mListener != null){
+                        mListener.onClickDelete(curSchedule);
+                    }
+                    return true;
+                }
+            });
         }
 
         @Override
         public int getItemCount() {
-            return mDatas.size();
+            return mData.size();
         }
 
-        /**
-         * 以下两个接口代替 activity.onStart() 和 activity.onStop(), 控制 timer 的开关
-         */
         @Override
         public void onViewAttachedToWindow(MyViewHolder holder) {
             int pos = holder.getAdapterPosition();
-//            Log.d("MyViewHolder", String.format("mCvCountdownView %s is attachedToWindow", pos));
-
-            ItemInfo itemInfo = mDatas.get(pos);
-
-            holder.refreshTime(itemInfo.getEndTime() - System.currentTimeMillis());
+            Schedule schedule = mData.get(pos);
+            holder.refreshTime(schedule.getEndTime() - System.currentTimeMillis());
         }
 
         @Override
         public void onViewDetachedFromWindow(MyViewHolder holder) {
-//            int pos = holder.getAdapterPosition();
-//            Log.d("MyViewHolder", String.format("mCvCountdownView %s is detachedFromWindow", pos));
-
-            holder.getCvCountdownView().stop();
+            holder.getCountdownView().stop();
         }
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView mTvTitle, tv_desc;
-        private CountdownView mCvCountdownView;
-        private ItemInfo mItemInfo;
+        private TextView mTvTitle, mTxtDesc;
+        private CountdownView mCountdownView;
+        private Schedule mSchedule;
 
-        public MyViewHolder(View itemView) {
+        MyViewHolder(View itemView) {
             super(itemView);
-            mTvTitle = (TextView) itemView.findViewById(R.id.tv_title);
-            tv_desc = (TextView) itemView.findViewById(R.id.tv_desc);
-            mCvCountdownView = (CountdownView) itemView.findViewById(R.id.cv_countdownView);
+            mTvTitle = itemView.findViewById(R.id.tv_title);
+            mTxtDesc = itemView.findViewById(R.id.tv_desc);
+            mCountdownView = itemView.findViewById(R.id.cv_countdownView);
+
         }
 
-        public void bindData(ItemInfo itemInfo) {
-            mItemInfo = itemInfo;
-            mTvTitle.setText(itemInfo.getTitle());
-            tv_desc.setText(itemInfo.getDes());
-            refreshTime(mItemInfo.getEndTime() - System.currentTimeMillis());
+        public void bindData(Schedule schedule) {
+            mSchedule = schedule;
+            mTvTitle.setText(schedule.getTitle());
+            mTxtDesc.setText(schedule.getDescription());
+            refreshTime(mSchedule.getEndTime() - System.currentTimeMillis());
         }
 
         public void refreshTime(long leftTime) {
             if (leftTime > 0) {
-                mCvCountdownView.start(leftTime);
+                mCountdownView.start(leftTime);
             } else {
-                mCvCountdownView.stop();
-                mCvCountdownView.allShowZero();
+                mCountdownView.stop();
+                mCountdownView.allShowZero();
             }
         }
 
-        public ItemInfo getBean() {
-            return mItemInfo;
-        }
 
-        public CountdownView getCvCountdownView() {
-            return mCvCountdownView;
+        public CountdownView getCountdownView() {
+            return mCountdownView;
         }
     }
 
-    public static class ItemInfo {
-        private int id;
+    public static class Schedule {
+        private long id;
         private String title;
         private String des;
-        private long countdown;
-        /*
-                   根据服务器返回的countdown换算成手机对应的开奖时间 (毫秒)
-                   [正常情况最好由服务器返回countdown字段，然后客户端再校对成该手机对应的时间，不然误差很大]
-                 */
         private long endTime;
 
-        public ItemInfo(int id, String title, String des, long countdown, long endTime) {
+        public Schedule(long id, String title, String des, long endTime) {
             this.id = id;
             this.title = title;
             this.des = des;
-            this.countdown = countdown;
             this.endTime = endTime;
         }
 
-        public ItemInfo(int id, String title, String des, long countdown) {
-            this.id = id;
-            this.title = title;
-            this.des = des;
-            this.countdown = countdown;
-
+        public Schedule(String title, String desc, long endTime) {
+            this(System.nanoTime(), title, desc, endTime);
         }
 
-        public String getDes() {
+        public String getDescription() {
             return des;
         }
 
-        public void setDes(String des) {
-            this.des = des;
-        }
-
-        public int getId() {
+        public long getId() {
             return id;
         }
 
@@ -201,20 +257,20 @@ public class RecyclerViewActivity extends AppCompatActivity {
             this.title = title;
         }
 
-        public long getCountdown() {
-            return countdown;
-        }
-
-        public void setCountdown(long countdown) {
-            this.countdown = countdown;
-        }
-
         public long getEndTime() {
             return endTime;
         }
 
         public void setEndTime(long endTime) {
             this.endTime = endTime;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof Schedule){
+                return id == ((Schedule) obj).id;
+            }
+            return false;
         }
     }
 
